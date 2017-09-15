@@ -6,6 +6,8 @@ __author__ = 'kellerz zhu'
 import asyncio, logging
 
 import aiomysql
+# 配置log打印级别，不设置 则不打印
+logging.basicConfig(level=logging.INFO)
 
 def log(sql,arg=()):
     logging.info('SQL:%s'%sql)
@@ -32,7 +34,8 @@ async def select(sql,args,size=None):
     global __pool
     async with __pool.get() as conn:
         async with conn.cursor(aiomysql.DictCursor) as cur:
-            await cur.execute(sql.replace('?','%s').args or ())
+            ###
+            await cur.execute(sql.replace('?','%s'), args or ())
             if size:
                 rs = await cur.fetchmany(size)
             else:
@@ -48,12 +51,20 @@ async def execute(sql, args, autocommit=True):
             async with conn.cursor(aiomysql.DictCursor) as cur:
                 await cur.execute(sql.replace('?', '%s'), args)
                 affected = cur.rowcount
+
+                ##add
+                await cur.close()
+                
             if not autocommit:
                 await conn.commit()
+
+                logging.info('commit success!')
         except BaseException as e:
             if not autocommit:
                 await conn.rollback()
             raise
+        finally:
+            conn.close()
         return affected
 
 def create_args_string(num):
@@ -61,6 +72,9 @@ def create_args_string(num):
     for n in range(num):
         L.append('?')
     return ', '.join(L)
+
+# print(create_args_string(5))
+
 # 字段类
 class Field(object):
 
@@ -232,7 +246,5 @@ class Model(dict, metaclass=ModelMetaclass):
         args = [self.getValue(self.__primary_key__)]
         rows = await execute(self.__delete__, args)
         if rows != 1:
-
-            logging.warn('failed to remove by primary key: affected rows: %s' % rows)
-
             
+            logging.warn('failed to remove by primary key: affected rows: %s' % rows)
