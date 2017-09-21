@@ -32,7 +32,7 @@ class APIResourceNotFoundError(APIError):
             'value:notfound', field, message)
 
 
-class APIPermissionError(object):
+class APIPermissionError(APIError):
 
     """docstring for APIPermissionError"""
 
