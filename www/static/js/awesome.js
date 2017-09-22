@@ -456,3 +456,16 @@ function error(err) {
 function fatal(err) {
     _display_error($('#loading'), err);
 }
+
+
+// 回到顶端按钮出现和消失效果的实现
+$(function() {
+    $(window).scroll(function() {
+        if($(this).scrollTop() >= $(this).height()/2) {
+            $('.goto-top').fadeIn();
+        }
+        else {
+            $('.goto-top').fadeOut();
+        }
+    });
+});

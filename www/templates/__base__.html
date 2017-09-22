@@ -17,80 +17,141 @@
 {% endmacro %}
 -->
 <html>
-    <head>
-        <meta charset="utf-8" />
-        {% block meta %}<!-- block meta  -->{% endblock %}
-        <title>{% block title %} ? {% endblock %} - Pure Blog</title>
-        <link rel="stylesheet" href="/static/css/uikit.min.css">
-        <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
-        <link rel="stylesheet" href="/static/css/awesome.css" />
-        <script src="/static/js/jquery.min.js"></script>
-        <script src="/static/js/sha1.min.js"></script>
-        <script src="/static/js/uikit.min.js"></script>
-        <script src="/static/js/sticky.min.js"></script>
-        <script src="/static/js/vue.min.js"></script>
-        <script src="/static/js/awesome.js"></script>
-        {% block beforehead %}<!-- before head  -->{% endblock %}
-        <script>
-        
-        </script>
-    </head>
-    <body>
-        <nav class="uk-navbar uk-navbar-attached uk-margin-bottom">
-            <div class="uk-container uk-container-center">
-                <a href="/" class="uk-navbar-brand">Pure Blog</a>
+
+<head>
+    <meta charset="utf-8" /> {% block meta %}
+    <!-- block meta  -->{% endblock %}
+    <title>{% block title %} ? {% endblock %} - Pure Blog</title>
+    <link rel="stylesheet" href="/static/css/uikit.min.css">
+    <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
+    <link rel="stylesheet" href="/static/css/awesome.css" />
+    <link rel="stylesheet" href="/static/css/main.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/sha1.min.js"></script>
+    <script src="/static/js/uikit.min.js"></script>
+    <script src="/static/js/sticky.min.js"></script>
+    <script src="/static/js/vue.min.js"></script>
+    <!-- 为了防止出现缓存，最好在js文件后面加上版本号 -->
+    <script src="/static/js/awesome.js?v=9527"></script>
+    {% block beforehead %}
+    <!-- before head  -->{% endblock %}
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <nav class="uk-navbar uk-navbar-attached uk-margin-bottom">
+        <div class="uk-container uk-container-center">
+            <a href="/" class="uk-navbar-brand">Pure Blog</a>
+            <ul class="uk-navbar-nav">
+                <li data-url="blogs"><a href="/"><i class="uk-icon-home"></i> 日志</a></li>
+                <!--这里放后台管理的连接方便测试-->
+                <li><a target="_blank" href="http://127.0.0.1:9000/manage/blogs"><i class="uk-icon-book"></i> 博文管理</a></li>
+                <li><a target="_blank" href="http://127.0.0.1:9000/manage/users"><i class="uk-icon-book"></i> 用户管理</a></li>
+                <li><a target="_blank" href="http://127.0.0.1:9000/manage/comments"><i class="uk-icon-book"></i> 评论管理</a></li>
+                <li><a target="_blank" href="https://github.com/KaimingWan/PureBlog"><i class="uk-icon-code"></i> 源码</a></li>
+            </ul>
+            <div class="uk-navbar-flip">
                 <ul class="uk-navbar-nav">
-                    <li data-url="blogs"><a href="/"><i class="uk-icon-home"></i> 日志</a></li>
-                    <!--这里放后台管理的连接方便测试-->
-                    <li><a target="_blank" href="http://127.0.0.1:9000/manage/blogs"><i class="uk-icon-book"></i> 博文管理</a></li>
-                    <li><a target="_blank" href="http://127.0.0.1:9000/manage/users"><i class="uk-icon-book"></i> 用户管理</a></li>
-                    <li><a target="_blank" href="http://127.0.0.1:9000/manage/comments"><i class="uk-icon-book"></i> 评论管理</a></li>
-                    <li><a target="_blank" href="https://github.com/KaimingWan/PureBlog"><i class="uk-icon-code"></i> 源码</a></li>
-                </ul>
-                <div class="uk-navbar-flip">
-                    <ul class="uk-navbar-nav">
                     {% if __user__ %}
-                        <li class="uk-parent" data-uk-dropdown>
-                            <a href="#0"><i class="uk-icon-user"></i> {{ __user__.name }}</a>
-                            <div class="uk-dropdown uk-dropdown-navbar" style="width:150px">
-                                <ul class="uk-nav uk-nav-navbar">
-                                    <li ><a href="/signout"><i class="uk-icon-sign-out"></i> 登出</a></li>
-                                </ul>
-                            </div>
-                        </li>
+                    <li class="uk-parent" data-uk-dropdown>
+                        <a href="#0"><i class="uk-icon-user"></i> {{ __user__.name }}</a>
+                        <div class="uk-dropdown uk-dropdown-navbar" style="width:150px">
+                            <ul class="uk-nav uk-nav-navbar">
+                                <li><a href="/user/{{ __user__.id }}"><i class="uk-icon-info-circle"></i> 用户信息</a></li>
+                                <li><a href="/manage"><i class="uk-icon-gear"></i> 后台管理</a></li>
+                                <li><a href="/signout"><i class="uk-icon-sign-out"></i> 登出</a></li>
+                            </ul>
+                        </div>
+                    </li>
                     {% else %}
-                        <li><a href="/signin"><i class="uk-icon-sign-in"></i> 登陆</a></li>
-                        <li><a href="/register"><i class="uk-icon-edit"></i> 注册</a></li>
+                    <li><a href="/signin"><i class="uk-icon-sign-in"></i> 登陆</a></li>
+                    <li><a href="/register"><i class="uk-icon-edit"></i> 注册</a></li>
                     {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    
-        <div class="uk-container uk-container-center" >
-            <div class="uk-grid" >
-                <!-- content -->
-                {% block content %}
-                {% endblock %}
-                <!-- // content -->
+                </ul>
             </div>
         </div>
+    </nav>
+
     
-        <div class="uk-margin-large-top" style="background-color:#eee; border-top:1px solid #ccc;bottom:0;width:100%;">
-            <div class="uk-container uk-container-center uk-text-center">
-                <div class="uk-panel uk-margin-top uk-margin-bottom">
-                    <p>
-                        <a target="_blank" href="http://weibo.com/Blusez" class="uk-icon-button uk-icon-weibo"></a>
-                        <a target="_blank" href="https://github.com/Blusez" class="uk-icon-button uk-icon-github"></a>
-                        <a target="_blank" href="about:blank" class="uk-icon-button uk-icon-linkedin-square"></a>
-                        <a target="_blank" href="about:blank" class="uk-icon-button uk-icon-twitter"></a>
-                    </p>
-                    <p>Powered by <a href="http://pureblog.kaimingwan.com">Pure Blog</a>. Copyright &copy; 2016. [<a href="/manage/" target="_blank">Manage</a>]</p>
-                    <p><a href="http://www.kaimingwan.com/" target="_blank">http://www.kaimingwan.com/</a>. All rights reserved.</p>
-                    <!-- <a target="_blank" href="http://www.w3.org/TR/html5/"><i class="uk-icon-html5" style="font-size:64px; color: #444;"></i></a> -->
+    <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+            <div class="uk-grid" data-uk-grid-margin>
+                <div class="uk-width-medium-3-4 uk-row-first">
+                    <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+                    <!-- content -->
+                    {% block content %}
+                    {% endblock %}
+                    <!-- end content -->
+                    </div>
                 </div>
-    
+
+                <!-- sidebar -->
+                <div class="uk-width-medium-1-4">
+                    <div class="uk-panel uk-panel-box uk-text-center">
+                        <img class="uk-border-circle" width="120" height="120" src="http://www.gravatar.com/avatar/b3f2a80ea665dfabd0c070e191a6316d?d=mm&s=120" alt="">
+                        <h3>{{configs.web_meta.web_name}}</h3>
+                        <p>{{configs.web_meta.app_name}}</p>
+                    </div>
+                    <div class="uk-panel uk-panel-box">
+                        <h3 class="uk-panel-title">文章分类</h3>
+                        <ul class="uk-list uk-list-line">
+                                <li><a href="/category/ cat.id ">asa</a></li>
+                                <li><a href="/category/ cat.id ">asa</a></li>
+                                <li><a href="/category/ cat.id ">asa</a></li>
+                            {% for cat in cats %}
+                                <li><a href="/category/ cat.id ">{{ cat.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="uk-panel uk-panel-box">
+                        <div class="uk-panel uk-panel-header">
+                            <h3 class="uk-panel-title">友情链接</h3>
+                            <ul class="uk-list uk-list-line">
+                                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="https://github.com">GitHub</a></li>
+                                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="https://disqus.com">Disqus</a></li>
+                                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="http://www.weibo.com">weibo</a></li>
+                                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="http://www.csdn.net">CSDN</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <div class="uk-panel uk-panel-box">
+                        <h3 class="uk-panel-title">友情链接</h3>
+                        <ul class="uk-list">
+                            <li><a target="_blank" href="https://github.com">GitHub</a></li>
+                            <li><a target="_blank" href="https://disqus.com">Disqus</a></li>
+                            <li><a target="_blank" href="http://www.weibo.com">weibo</a></li>
+                            <li><a target="_blank" href="http://www.csdn.net">CSDN</a></li>
+                        </ul>
+                    </div> -->
+                </div>
+                <!-- end sidebar -->
             </div>
+            <a href="#navbar" class="goto-top uk-icon-button uk-icon-arrow-up" hidden="hidden" data-uk-smooth-scroll></a>
         </div>
-    </body>
-    </html>
+
+
+
+    <!-- footer -->
+    <div class="uk-margin-large-top" style="background-color:#eee; border-top:1px solid #ccc;bottom:0;width:100%;">
+        <div class="uk-container uk-container-center uk-text-center">
+            <div class="uk-panel uk-margin-top uk-margin-bottom">
+                <p>
+                    <a target="_blank" href="http://weibo.com/Blusez" class="uk-icon-button uk-icon-weibo"></a>
+                    <a target="_blank" href="https://github.com/Blusez" class="uk-icon-button uk-icon-github"></a>
+                    <a target="_blank" href="about:blank" class="uk-icon-button uk-icon-linkedin-square"></a>
+                    <a target="_blank" href="about:blank" class="uk-icon-button uk-icon-twitter"></a>
+                </p>
+                <p>Powered by <a href="http://pureblog.kaimingwan.com">Pure Blog</a>. Copyright &copy; 2016. [<a href="/manage/"
+                        target="_blank">Manage</a>]</p>
+                <p><a href="http://www.kaimingwan.com/" target="_blank">http://www.kaimingwan.com/</a>. All rights reserved.</p>
+                <!-- <a target="_blank" href="http://www.w3.org/TR/html5/"><i class="uk-icon-html5" style="font-size:64px; color: #444;"></i></a> -->
+            </div>
+
+        </div>
+    </div>
+    <!-- end footer -->
+
+</body>
+
+</html>
