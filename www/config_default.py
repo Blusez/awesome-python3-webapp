@@ -20,6 +20,7 @@ configs = {
         "user_image": "/static/images/user.svg",
         "logo": "/static/images/user.svg",
         "welcome_message": "欢迎来到我的个人博客网站",
-        "base_url": "http://www.cashqian.net"
+        "base_url": "#",
+        'version':'2'
     },
 }

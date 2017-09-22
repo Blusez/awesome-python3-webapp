@@ -81,7 +81,10 @@ async def index(*, page='1'):
     num = await Blog.findNumber('count(id)')
     # 通过Page类来计算当前页的相关信息
     page = Page(num, page_index)
-    # 如果表里没有条目，则不需要系那是
+    # p = Page(num, page_index, item_page=configs.blog_item_page, page_show=configs.page_show)
+     
+    
+    # 如果表里没有条目，则不需要
     if num == 0:
         blogs = []
     else:
@@ -324,6 +327,7 @@ async def api_comments(*, page='1'):
     page_index = get_page_index(page)
     num = await Comment.findNumber('count(id)')
     p = Page(num, page_index)
+    
     if num == 0:
         return dict(page=p, comments=())
     comments = await Comment.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
@@ -457,6 +461,7 @@ async  def api_blogs(*, page='1'):
     page_index = get_page_index(page)
     num = await Blog.findNumber('count(id)')
     p = Page(num, page_index)
+    
     if num == 0:
         return dict(page=p, blogs=())
     blogs = await Blog.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))

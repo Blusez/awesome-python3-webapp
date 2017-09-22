@@ -25,14 +25,14 @@
     <link rel="stylesheet" href="/static/css/uikit.min.css">
     <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
     <link rel="stylesheet" href="/static/css/awesome.css" />
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/main.css?v={{configs.web_meta.version}}">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/sha1.min.js"></script>
     <script src="/static/js/uikit.min.js"></script>
     <script src="/static/js/sticky.min.js"></script>
     <script src="/static/js/vue.min.js"></script>
     <!-- 为了防止出现缓存，最好在js文件后面加上版本号 -->
-    <script src="/static/js/awesome.js?v=9527"></script>
+    <script src="/static/js/awesome.js?v={{configs.web_meta.version}}"></script>
     {% block beforehead %}
     <!-- before head  -->{% endblock %}
     <script>
@@ -41,7 +41,7 @@
 </head>
 
 <body>
-    <nav class="uk-navbar uk-navbar-attached uk-margin-bottom">
+    <nav id="navbar" class="tm-navbar uk-navbar uk-margin-large-bottom uk-navbar-attached">
         <div class="uk-container uk-container-center">
             <a href="/" class="uk-navbar-brand">Pure Blog</a>
             <ul class="uk-navbar-nav">
@@ -89,7 +89,7 @@
                 <!-- sidebar -->
                 <div class="uk-width-medium-1-4">
                     <div class="uk-panel uk-panel-box uk-text-center">
-                        <img class="uk-border-circle" width="120" height="120" src="http://www.gravatar.com/avatar/b3f2a80ea665dfabd0c070e191a6316d?d=mm&s=120" alt="">
+                        <img class="uk-border-circle" width="120" height="120" src="{{configs.web_meta.user_image}}" alt="">
                         <h3>{{configs.web_meta.web_name}}</h3>
                         <p>{{configs.web_meta.app_name}}</p>
                     </div>
@@ -142,9 +142,9 @@
                     <a target="_blank" href="about:blank" class="uk-icon-button uk-icon-linkedin-square"></a>
                     <a target="_blank" href="about:blank" class="uk-icon-button uk-icon-twitter"></a>
                 </p>
-                <p>Powered by <a href="http://pureblog.kaimingwan.com">Pure Blog</a>. Copyright &copy; 2016. [<a href="/manage/"
+                <p>Powered by <a href="#">{{ configs.web_meta.app_name }}</a>. Copyright &copy; 2016. [<a href="/manage/"
                         target="_blank">Manage</a>]</p>
-                <p><a href="http://www.kaimingwan.com/" target="_blank">http://www.kaimingwan.com/</a>. All rights reserved.</p>
+                <p><a href="#" target="_blank">http://www.kaimingwan.com/</a>. All rights reserved.</p>
                 <!-- <a target="_blank" href="http://www.w3.org/TR/html5/"><i class="uk-icon-html5" style="font-size:64px; color: #444;"></i></a> -->
             </div>
 
